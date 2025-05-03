@@ -34,9 +34,33 @@
                     <form style="display :inline;" method="POST" action="{{ route('posts.destroy', $post->id) }}">
                       @csrf
                       @method('DELETE')
-                    <button type="submit"  class="btn btn-outline-danger" onclick="return confirmSubmit(event);">Delete</button>
+                    <button type="submit"  class="btn btn-outline-danger" onclick="return confirmSubmit();">Delete</button>
                     </form> 
-                    
+                    <script>
+                      function confirmSubmit(event) {
+    event.preventDefault(); // منع الرابط من التحميل الفوري
+
+    swal({
+        title: "Are you sure?",
+        text: "This delete will be permanent.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            // إذا تم تأكيد الحذف، تابع التنفيذ
+            window.location.href = event.currentTarget.getAttribute('href');
+        } else {
+            // إذا تم إلغاء الحذف، لا تفعل شيئًا
+            swal("Your post is safe!");
+        }
+    });
+
+    return false; // يمنع التحميل الفوري للرابط
+}
+
+                      </script>
                 </td>
               </tr>
               @endforeach
@@ -45,26 +69,5 @@
               
             </div>
           </div>
-          <script>
-            function confirmSubmit(event) {
-                event.preventDefault();
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "This delete will be permanent.",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel!",
-                    dangerMode: true,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        event.target.closest('form').submit(); // Submit the form
-                    } else {
-                        Swal.fire("Your post is safe!");
-                    }
-                });
-            }
-        </script>
 </html> 
-
 @endsection
