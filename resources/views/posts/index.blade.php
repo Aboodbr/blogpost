@@ -24,7 +24,7 @@
               @foreach ($posts as $post)
               <tr>
                 
-                <td>{{ $post->id }}</td>
+                <td>{{  $loop->iteration }}</td>
                 <td>{{ $post->title }}</td>
                 <td>{{ $post->user ? $post->user->name :"not found" }}</td>
                 <td>{{ $post->user ? $post->user->created_at :"not found" }}</td>
